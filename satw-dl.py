@@ -49,6 +49,8 @@ class Scraper(object):
 class SATW(Scraper):
     def get_thumbnail(self):
         thumbnails = []
+        start = self.start
+
         for i in range(1, self.pages+1)[::-1]: # debug
             page = self.url + 'page' + str(i)
             print(page)
@@ -64,16 +66,15 @@ class SATW(Scraper):
             # print(page_thumbnails)
             thumbnails.extend(page_thumbnails)
 
-        return thumbnails
+        return thumbnails[start:] # debug for range
 
     def get_images(self): # plus description
         thumbnails = self.get_thumbnail()
 
         images = []
         descriptions = []
-        start = self.start
 
-        for i in thumbnails[start:]: # debug
+        for i in thumbnails: # debug
             soup = self.make_request(i)
 
             # get comic url
